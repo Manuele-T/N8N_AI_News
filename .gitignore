@@ -1,0 +1,10 @@
+.env
+node_modules/
+.DS_Store
+notes.md
+
+workflows/
+
+Extensive Mode.chatmode.md
+
+agentmode.chatmode.md
