@@ -29,6 +29,21 @@
     },
     {
       "parameters": {
+        "triggerOn": "cron",
+        "cronExpression": "0 20 * * *",
+        "timezone": "Europe/London"
+      },
+      "id": "94b83f66-58fb-4ab0-96c4-0513925806af",
+      "name": "Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -480,
+        96
+      ]
+    },
+    {
+      "parameters": {
         "url": "https://arstechnica.com/ai/feed",
         "options": {}
       },
@@ -100,7 +115,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.OPENAI_BASE_URL + '/openai/deployments/' + $env.OPENAI_DEPLOYMENT + '/chat/completions?api-version=2023-05-15' }}",
+        "url": "={{ $env.OPENAI-BASE-URL + '/openai/deployments/' + $env.OPENAI-DEPLOYMENT + '/chat/completions?api-version=2025-01-01-preview' }}",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -110,7 +125,7 @@
             },
             {
               "name": "api-key",
-              "value": "={{ $env.OPENAI_API_KEY }}"
+              "value": "={{ $env.OPENAI-API-KEY }}"
             }
           ]
         },
@@ -118,19 +133,19 @@
         "contentType": "raw",
         "body": "={{ JSON.stringify({messages:[{role:'system',content:'You summarize AI headlines.'},{role:'user',content:$node.Code.json.prompt}]}) }}"
       },
-      "id": "7b7fae19-a6af-42c4-b6bf-7ef9d547d35a",
-      "name": "OpenAI Chat Completion",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
         688,
         96
-      ]
+      ],
+      "id": "7b7fae19-a6af-42c4-b6bf-7ef9d547d35a",
+      "name": "OpenAI Chat Completion"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "={{ $env.DISCORD_WEBHOOK_URL }}",
+        "url": "={{ $env.DISCORD-WEBHOOK-URL }}",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -142,29 +157,14 @@
         },
         "options": {}
       },
-      "id": "2a1be0a1-9b6f-4c59-9d6c-111111111111",
-      "name": "Send to Discord",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
         896,
         96
-      ]
-    },
-    {
-      "parameters": {
-        "triggerOn": "cron",
-        "cronExpression": "0 18 * * *",
-        "timezone": "Europe/London"
-      },
-      "id": "94b83f66-58fb-4ab0-96c4-0513925806af",
-      "name": "Schedule",
-      "type": "n8n-nodes-base.scheduleTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        -480,
-        96
-      ]
+      ],
+      "id": "2a1be0a1-9b6f-4c59-9d6c-111111111111",
+      "name": "Send to Discord"
     }
   ],
   "connections": {
@@ -173,6 +173,37 @@
         [
           {
             "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read1",
             "type": "main",
             "index": 0
           }
@@ -255,45 +286,16 @@
           }
         ]
       ]
-    },
-    "Schedule": {
-      "main": [
-        [
-          {
-            "node": "RSS Read",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "RSS Read1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "RSS Read2",
-            "type": "main", "index": 0
-          },
-          {
-            "node": "RSS Read3",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "RSS Read4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "id": "hvV0XCKHAUVqy8pF",
+  "versionId": "20250806-fixed",
   "meta": {
     "templateCredsSetupCompleted": true
   },
+  "id": "hvV0XCKHAUVqy8pF",
   "tags": []
 }
