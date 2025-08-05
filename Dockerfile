@@ -1,10 +1,16 @@
-# Use the official n8n base image
+# 1. Base image
 FROM n8nio/n8n:latest
 
-# Copy your exported workflow(s) into the container
-COPY workflows/ai-digest.json /data/workflows/ai-digest.json
+# 2. Make sure the workflow folder exists & is writeable
+USER root
+RUN mkdir -p /home/node/.n8n && chown -R node:node /home/node/.n8n
 
-# RUN npm install --global some-n8n-plugin
+# 3. Copy the workflow JSON into the image
+USER node
+COPY workflows/ai-digest.json /tmp/ai-digest.json
 
-# Ensure the container starts n8n with your workflows preloaded
-ENTRYPOINT ["n8n", "start", "--tunnel"]
+# 4. On container start, import the workflow, then start n8n
+ENTRYPOINT ["/bin/sh", "-c", "\
+  n8n import:workflow --input /tmp/ai-digest.json --overwrite && \
+  n8n start --tunnel \
+"]

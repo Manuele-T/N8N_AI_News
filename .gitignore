@@ -3,7 +3,10 @@ node_modules/
 .DS_Store
 notes.md
 
-workflows/
+
+workflows_backup/
+
+n8n/
 
 Extensive Mode.chatmode.md
 
